@@ -1,0 +1,8 @@
+.texturePicker{
+    padding: 1em 0em 0em 0em;
+}
+
+.selectedTexture{
+    margin: auto;
+    max-width: 400px;
+}
