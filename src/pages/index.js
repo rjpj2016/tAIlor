@@ -26,7 +26,6 @@ export default ({data}) => {
 
     console.log(texture,designs[0]);
 
-    document.title="tAIlor";
     return (<TailorLayout>
         <div className="mainScreen">
             <Row className="stageSelector">
