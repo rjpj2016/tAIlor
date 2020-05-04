@@ -4,5 +4,13 @@
 
 .selectedTexture{
     margin: auto;
-    max-width: 400px;
+    width: 400px;
+    height: 400px;
+    border-bottom: 1px black solid;
+    margin-bottom: 0.5em;
+}
+
+.selectedTexture > img{
+    width: 400px;
+    height: 400px;
 }
