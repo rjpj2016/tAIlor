@@ -43,7 +43,9 @@ export default ({data}) => {
                     </Button>
                 </Col>
             </Row>
-            <TexturePicker textureState={[texture,setTexture]}/>
+            <Row className="appStage">
+                <TexturePicker textureState={[texture,setTexture]}/>
+            </Row>
 
             
         </div>

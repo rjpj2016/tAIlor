@@ -1,16 +1,19 @@
-.texturePicker{
-    padding: 1em 0em 0em 0em;
+.imageSelector {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    height:100%;
+    margin: 0
 }
 
-.selectedTexture{
-    margin: auto;
-    width: 400px;
-    height: 400px;
-    border-bottom: 1px black solid;
-    margin-bottom: 0.5em;
+.imageSelector li {
+    height:100%;
+    width: 150px;
+    flex: 0 0 auto;
+    margin: 0;
 }
 
-.selectedTexture > img{
-    width: 400px;
-    height: 400px;
+.selectedImage {
+    border: 2px #afa dashed;
 }
+

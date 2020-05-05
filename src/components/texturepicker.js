@@ -1,7 +1,9 @@
 import React from 'react';
 
 import {graphql,useStaticQuery} from 'gatsby';
-import { Row,Col } from 'antd';
+import { Row,Col, Button } from 'antd';
+
+import {RobotOutlined,UploadOutlined} from '@ant-design/icons';
 
 import Img from 'gatsby-image';
 
@@ -31,20 +33,28 @@ export default ({textureState}) => {
 
 
     return (
-        <div className="texturePicker">
-            <Row className="selectedTexture">
-                <img src={texture} /> 
+        <div style={{width: "100%"}}>
+            <Row style={{borderBottom:"1px black solid",height: "70%",width:"100%",}}>
+                <div style={{display: "flex",justifyContent:"center",width:"100%",padding: "1.5em 1em 0em 1em"}}>
+                    <img src={texture} style={{height: "300px",width: "300px",margin:"0"}}/>
+                </div>
             </Row>
-            <Row style={{bottom: "0",marginTop: "0.5em", borderTop: "1px black solid"}}>
-                <Col span={8}></Col>
-                <Col span={16}>
-                    <ul style={{display: "flex", flexDirection:"row",overflowX:"auto"}}>
-                        {designs.map( design => (
-                            <li style={{flex: "0 0 auto",height:"150px",width:"150px"}}
+            <Row style={{height: "30%"}}>
+                <Col span={8} style={{height: "100%", borderRight: "1px black solid"}}>
+                    <Row style={{height: "50%",borderBottom: "1px black solid",display:"flex",justifyContent:"center",alignItems:"center"}}>
+                        <Button size="large" type="primary" shape="round" icon={<RobotOutlined/>}>Generate</Button>
+                    </Row>
+                    <Row style={{height: "50%", display:"flex",justifyContent:"center",alignItems:"center"}}>
+                        <Button size="large" type="primary" shape="round" icon={<UploadOutlined/>}>Upload</Button>
+                    </Row>
+                </Col>
+                <Col span={16} style={{height: "100%"}}>
+                    <ul className="imageSelector">
+                        {designs.map( design => ( <li className={ (design.node.childImageSharp.fluid.src == texture) ? "selectedImage" : null}
                                 onClick={() => setTexture(design.node.childImageSharp.fluid.src)}>
-                                <Img fluid={design.node.childImageSharp.fluid}/>
+                                <Img fluid={design.node.childImageSharp.fluid} style={{height:"100%"}}/>
                             </li>
-                        ) )}
+                        ))}
                     </ul>
                 </Col>
             </Row>
