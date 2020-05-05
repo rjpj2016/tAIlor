@@ -50,7 +50,7 @@ export default ({textureState}) => {
                 </Col>
                 <Col span={16} style={{height: "100%"}}>
                     <ul className="imageSelector">
-                        {designs.map( design => ( <li className={ (design.node.childImageSharp.fluid.src == texture) ? "selectedImage" : null}
+                        {designs.map( (design,index) => ( <li key={index} className={ (design.node.childImageSharp.fluid.src == texture) ? "selectedImage" : null}
                                 onClick={() => setTexture(design.node.childImageSharp.fluid.src)}>
                                 <Img fluid={design.node.childImageSharp.fluid} style={{height:"100%"}}/>
                             </li>
