@@ -26,6 +26,8 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-typography": "^0.16.19",
+    "three": "^0.116.1",
+    "three-obj-loader": "^1.1.3",
     "typography": "^0.16.19",
     "typography-theme-alton": "^0.16.19"
   },
