@@ -197,6 +197,17 @@ export default ({data}) => {
                                 </Row>
                                 <Row style={{marginBottom:"0.5em"}}>
                                     <Col span={8} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+                                        Hair Style :
+                                    </Col>
+                                    <Col span={16}>
+                                        <Select placeholder="Hair Style" style={{width:"100%"}}>
+                                            <Option value="Afro">Afro</Option>
+                                            <Option value="Buzz">Buzz</Option>
+                                        </Select>
+                                    </Col>
+                                </Row>
+                                <Row style={{marginBottom:"0.5em"}}>
+                                    <Col span={8} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
                                         Fitness :
                                     </Col>
                                     <Col span={16}>
