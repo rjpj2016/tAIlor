@@ -21,11 +21,12 @@ export default () => {
 
         // Make Scene
         let scene = new THREE.Scene();
+
+        // Make renderer
         let renderer = new THREE.WebGLRenderer();
 
         camera.position.z = radiusOfCamera;
         camera.position.y = heightOfCamera;
-        camera.position.x = -50;
 
         renderer.setSize(domRef.offsetWidth, domRef.offsetHeight);
         domRef.appendChild(renderer.domElement);
