@@ -19,7 +19,7 @@ module.exports = {
       resolve: "gatsby-source-filesystem",
       options: {
         name: "designs",
-        path: path.join(__dirname,'static','images','designs')
+        path: path.join(__dirname,'static')
       }
     },
     `gatsby-plugin-sharp`,
