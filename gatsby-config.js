@@ -6,6 +6,12 @@
 const path = require(`path`)
 
 module.exports = {
+  proxy:[
+    {
+      prefix: "/dinesh",
+      url:"http://localhost:3000"
+    },
+  ],
   /* Your site config here */
   plugins: [
     "gatsby-plugin-antd",
