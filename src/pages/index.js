@@ -16,16 +16,31 @@ OBJLoader(THREE);
 const {Option} = Select;
 
 export default ({data}) => {
-
-    const designs = data.allFile.edges;
-
-    const [design,setDesign] = useState(designs[0].node.childImageSharp.fluid.src);
-    const [model,setModel] = useState({});
-    
-
     let domRef;
     let human;
+    let scene;
     let loader= new THREE.OBJLoader();
+
+    const designs = data.designs.edges;
+    const models = data.models.edges;
+
+    const [design,setDesign] = useState(designs[0].node.childImageSharp.fluid.src);
+
+    const setModel = (publicURL) => {
+        if (human && scene) {scene.remove(human)}
+        loader.load(
+            publicURL, // Resource
+            (object) => { // Once loaded.
+                human = object;
+                scene.add(human);
+            },
+            (xhr) => { //Updates
+                console.log(( xhr.loaded / xhr.total * 100 ) + '% loaded');
+            }
+
+        );
+    }
+    
     useEffect( () => {
         // Make camera
         let near =0.1;
@@ -37,7 +52,7 @@ export default ({data}) => {
         let camera = new THREE.PerspectiveCamera(fov,aspect,near,far);
 
         // Make Scene
-        let scene = new THREE.Scene();
+        scene = new THREE.Scene();
         // Make renderer
         let renderer = new THREE.WebGLRenderer({ alpha: true });
         renderer.setClearColor( 0x99dd99, 1);
@@ -126,7 +141,7 @@ export default ({data}) => {
                     </div>
                 </Col>
                 <Col xs={0} md={6} xl={5}>
-                    <ModelPicker />
+                    <ModelPicker models={models} modelState={{setModel}}/>
                     
                 </Col>
             </Row>
@@ -135,16 +150,27 @@ export default ({data}) => {
 }
 
 export const Query = graphql`
-    query {
-        allFile (filter: {relativeDirectory: {eq: "images/designs"}}) {
-            edges {
-                node {
-                    childImageSharp {
-                        fluid {
-                        ...GatsbyImageSharpFluid
-                        }
+query {
+    designs : allFile (filter: {relativeDirectory: {eq: "images/designs"}}) {
+        edges {
+            node {
+                childImageSharp {
+                    fluid {
+                    ...GatsbyImageSharpFluid
                     }
                 }
             }
         }
-    }`
+    }
+    models: allFile (filter:{
+            relativeDirectory:{eq:"humans"},
+            extension:{ eq:"obj"}
+    }){
+        edges {
+            node {
+                publicURL
+                name
+            }
+        }
+    }
+}`

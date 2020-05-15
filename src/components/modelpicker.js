@@ -1,16 +1,27 @@
 import React from 'react';
 
-import {Row, Col,Select, Slider } from 'antd';
+import {Row, Col,Select, Slider,List } from 'antd';
+
 
 const {Option} = Select;
 
-export default () => {
+export default ({models,modelState}) => {
+    const {setModel} = modelState;
     return (
         <div style={{height:"100%",width:"100%",backgroundColor:"#F5F5DC"}}>
             <Row style={{display:"flex","justifyContent":"center"}}>
                 <h1 style={{margin:"auto"}}>Models</h1>
             </Row>
             <Row style={{height:"60%"}}>
+                <List style={{width:"100%",padding:"1em 1em"}}>
+                    {models.map((model,index)=> (
+                        <div style={{backgroundColor:"#fff",minHeight:"3em",width:"100%",marginBottom:"1em"}}
+                            onClick={() => setModel(model.node.publicURL)}>
+                            {model.node.name}
+                        </div>
+                    ))}
+                </List>
+                
             </Row>
             <Row style={{borderTop:"1px black solid"}}>
                 <div style={{display:"flex",justifyContent:"center",width:"100%",color:"#111"}}><p>Parameters</p></div>
