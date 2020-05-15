@@ -50,9 +50,10 @@ export default ({designs,designState}) => {
             </Row>
             <Row style={{position:"absolute",bottom:"0",right:"0",left:"0",height:"50px"}}>
                 <Col span={24} style={{display:"flex",justifyContent:"center"}}>
-                    <Button size="large" type="primary" shape="circle" icon={<RobotOutlined/>} 
-                        onClick={() => generateDesign()}/>  
-                    <Button size="large" type="primary" shape="circle" icon={<UploadOutlined/>} />   
+                    <Button size="large" type="primary" shape="round" icon={<RobotOutlined/>} 
+                        onClick={() => generateDesign()}
+                        style={{marginRight:"1em"}}>AI</Button>  
+                    <Button size="large" type="primary" shape="round" icon={<UploadOutlined/>} >Upload</Button>   
                 </Col>
             </Row>
             
