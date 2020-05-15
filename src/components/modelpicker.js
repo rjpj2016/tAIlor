@@ -17,23 +17,10 @@ export default () => {
                 
                 <div style={{width:"100%"}}>
                     <Row style={{marginBottom:"0.5em"}}>
-                        <Col span={8} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-                            Ethnicity :
-                        </Col>
-                        <Col span={16}>
-                            <Select placeholder="Ethnicity" style={{width:"100%"}}>
-                                <Option value="Asian">Asian</Option>
-                                <Option value="Hispanic">Hispanic</Option>
-                                <Option value="White">White</Option>
-                                <Option value="Nordic">Nordic</Option>
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row style={{marginBottom:"0.5em"}}>
-                        <Col span={8} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+                        <Col span={10} style={{display:"flex",justifyContent:"flex-end",paddingRight:"1em",alignItems:"center"}}>
                             Gender :
                         </Col>
-                        <Col span={16}>
+                        <Col span={14}>
                             <Select placeholder="Gender" style={{width:"100%"}}>
                                 <Option value="Male">Male</Option>
                                 <Option value="Female">Female</Option>
@@ -41,29 +28,26 @@ export default () => {
                         </Col>
                     </Row>
                     <Row style={{marginBottom:"0.5em"}}>
-                        <Col span={8} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-                            Hair Style :
+                        <Col span={10} style={{display:"flex",justifyContent:"flex-end",paddingRight:"1em",alignItems:"center"}}>
+                            Height :
                         </Col>
-                        <Col span={16}>
-                            <Select placeholder="Hair Style" style={{width:"100%"}}>
-                                <Option value="Afro">Afro</Option>
-                                <Option value="Buzz">Buzz</Option>
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row style={{marginBottom:"0.5em"}}>
-                        <Col span={8} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-                            Fitness :
-                        </Col>
-                        <Col span={16}>
+                        <Col span={14}>
                             <Slider defaultValue={Math.random()*100} style={{margin:"0.5em"}}/>
                         </Col>
                     </Row>
                     <Row style={{marginBottom:"0.5em"}}>
-                        <Col span={8} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-                            Skintone :
+                        <Col span={10} style={{display:"flex",justifyContent:"flex-end",paddingRight:"1em",alignItems:"center"}}>
+                            Waist :
                         </Col>
-                        <Col span={16}>
+                        <Col span={14}>
+                            <Slider defaultValue={Math.random()*100} style={{margin:"0.5em"}}/>
+                        </Col>
+                    </Row>
+                    <Row style={{marginBottom:"0.5em"}}>
+                        <Col span={10} style={{display:"flex",justifyContent:"flex-end",paddingRight:"1em",alignItems:"center",textAlign:"right"}}>
+                            Shoulder Width:
+                        </Col>
+                        <Col span={14}>
                             <Slider defaultValue={Math.random()*100} style={{margin:"0.5em"}}/>
                         </Col>
                     </Row>
