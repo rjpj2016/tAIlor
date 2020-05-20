@@ -76,6 +76,8 @@ export default ({data}) => {
             publicURL, // Resource
             (object) => { // Once loaded.
                 human = object;
+                human.rotation.y = -Math.PI/2;
+                human.position.y=-100;
                 scene.add(human);
             },
             (xhr) => { //Updates
