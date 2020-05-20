@@ -15,16 +15,60 @@ OBJLoader(THREE);
 
 const {Option} = Select;
 
+const Shirt = (design) => {
+    const textureLoader = new THREE.TextureLoader();
+    const material2 = new THREE.MeshPhongMaterial({map:textureLoader.load(design)})
+    var cylinder = new THREE.Mesh(new THREE.CylinderGeometry(24,24,50),material2)
+    var cylinder2 = new THREE.Mesh(new THREE.CylinderGeometry(24,24,50),material2)
+    var cuboid1 = new THREE.Mesh(new THREE.BoxGeometry(20,33,16),material2)
+    var cuboid2 = new THREE.Mesh(new THREE.BoxGeometry(20,33,16),material2)
+    var upperRaidus =30
+    var lowerRadius = 50
+    var frustumHeight = 60
+    var chest = new THREE.Mesh(new THREE.CylinderGeometry(upperRaidus,lowerRadius,frustumHeight,16),material2)
+    var abs = new THREE.Mesh(new THREE.CylinderGeometry(45,36,80,16),material2)
+    var sphere1 = new THREE.Mesh(new THREE.SphereGeometry(22,20,20),material2)
+    var sphere2 = new THREE.Mesh(new THREE.SphereGeometry(22,20,20),material2)
+    var upperRaidus =30
+    const scale = 1;
+    cylinder.position.set(50,280*scale,-14)
+    cylinder.rotation.set(0,0,0.5)
+    cylinder2.position.set(-50,280*scale,-24)
+    cylinder2.rotation.set(0,0,-0.5)
+    chest.position.set(0,290*scale,-15)
+    chest.rotation.set(0,0.8,0)
+    sphere1.position.set(34,298*scale,-19)
+    sphere2.position.set(-34,298*scale,-19)
+    abs.position.set(0,285*scale-frustumHeight,-10)	
+
+    cuboid1.position.set(36,289*scale,7)
+    cuboid2.position.set(-36,287*scale,7)
+    console.log(cuboid1)
+    return [cylinder,cylinder2,abs,chest,sphere1,sphere2,cuboid1,cuboid2];
+}
+
 export default ({data}) => {
     let domRef;
     let human;
     let scene;
     let loader= new THREE.OBJLoader();
 
+
     const designs = data.designs.edges;
     const models = data.models.edges;
 
-    const [design,setDesign] = useState(designs[0].node.childImageSharp.fluid.src);
+    const [design,setDesign_] = useState(designs[0].node.childImageSharp.fluid.src);
+
+    const clothes = Shirt(design);
+
+    const setDesign = (design) => {
+        const textureLoader = new THREE.TextureLoader();
+        const material2 = new THREE.MeshPhongMaterial({map:textureLoader.load(design)})
+        clothes.map( cloth => {
+            cloth.material = material2;
+        });
+        setDesign_(design);
+    }
 
     const setModel = (publicURL) => {
         if (human && scene) {scene.remove(human)}
@@ -71,6 +115,9 @@ export default ({data}) => {
         const cube = new THREE.Mesh(geometry, material);
         scene.add(cube);
 
+        
+        scene.add(...clothes);
+
         let animate = function () {
             requestAnimationFrame(animate);
             cube.rotation.x += 0.01;
@@ -89,6 +136,7 @@ export default ({data}) => {
             (object) => { // Once loaded.
                 human = object;
                 human.rotation.y = -Math.PI/2;
+                human.position.y=-100
                 scene.add(human);
             },
             (xhr) => { //Updates

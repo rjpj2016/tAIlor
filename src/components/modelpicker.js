@@ -15,7 +15,7 @@ export default ({models,modelState}) => {
             <Row style={{height:"60%"}}>
                 <List style={{width:"100%",padding:"1em 1em"}}>
                     {models.map((model,index)=> (
-                        <div style={{backgroundColor:"#fff",minHeight:"3em",width:"100%",marginBottom:"1em"}}
+                        <div key={index} style={{backgroundColor:"#fff",minHeight:"3em",width:"100%",marginBottom:"1em"}}
                             onClick={() => setModel(model.node.publicURL)}>
                             {model.node.name}
                         </div>

@@ -9,7 +9,7 @@ module.exports = {
   proxy:[
     {
       prefix: "/dinesh",
-      url:"http://localhost:3000"
+      url:"http://34.87.150.173"
     },
   ],
   /* Your site config here */
