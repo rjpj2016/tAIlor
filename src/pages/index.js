@@ -51,7 +51,7 @@ export default ({data}) => {
             (object) => { // Once loaded.
                 human = object;
                 human.rotation.y = -Math.PI/2;
-                human.position.y=-100;
+                console.log(scene,human);
                 scene.add(human);
             },
             (xhr) => { //Updates
@@ -105,7 +105,7 @@ export default ({data}) => {
         }
         animate();
 
-        loader.load('/clothes/untitled.obj',
+        loader.load('/clothes/girl_shirt.obj',
             (object) => {
                 console.log("Got shirt!")
                 shirt = object;
@@ -124,8 +124,8 @@ export default ({data}) => {
                     }
                 });
                 //shirt.position.z += 5;
-                shirt.position.y += 0.16;
-                shirt.scale.set(0.006,0.006,0.006);
+                shirt.position.y += 0.143;
+                //shirt.scale.set(0.006,0.006,0.006);
                 scene.add(shirt);
             },
             (xhr) => {
@@ -134,10 +134,17 @@ export default ({data}) => {
         )
 
         loader.load(
-            '/humans/Human Free.obj', // Resource
+            '/humans/girl.obj', // Resource
             (object) => { // Once loaded.
                 human = object;
-                human.rotation.y = -Math.PI/2;
+                //human.rotation.y = -Math.PI/2;
+                human.position.y -= 1
+                const mat = new THREE.MeshPhongMaterial({color:0xFFDBAC})
+                human.traverse(child => {
+                    if (child instanceof THREE.Mesh){
+                        child.material = mat;
+                    }
+                })
                 scene.add(human);
             },
             (xhr) => { //Updates
@@ -159,7 +166,7 @@ export default ({data}) => {
         // hemisphere light
         {
             const skyColor = 0xB1E1FF;  // light blue
-            const groundColor = 0xB97A20;  // brownish orange
+            const groundColor =  0x999999//0xB97A20;  // brownish orange
             const intensity = 1;
             const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
             scene.add(light);
