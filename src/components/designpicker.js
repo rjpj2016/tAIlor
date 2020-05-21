@@ -35,10 +35,10 @@ export default ({designs,designState}) => {
             </Row>
             <Row style={{display:"flex","justifyContent":"center",marginTop:"1em"}}>
                 <div style={{width:"100%"}}>
-                    {unflatten(designs,3).map(row => (
-                        <Row style={{display:"flex",justifyContent:"center"}}>
-                            {row.map( design => (
-                                <Col 
+                    {unflatten(designs,3).map( (row,rowIndex) => (
+                        <Row key={rowIndex} style={{display:"flex",justifyContent:"center"}}>
+                            {row.map( (design,colIndex) => (
+                                <Col key={colIndex}
                                     span={8}
                                     style={{padding:"0.5em"}}
                                     onClick={() => setDesign(design.node.childImageSharp.fluid.src)}> 
