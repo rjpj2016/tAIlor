@@ -1,6 +1,6 @@
 import { Row,Col, Button, Select, Slider } from "antd";
 import { useEffect } from "react";
-import React, {useState} from 'react';
+import React, {useState,useRef} from 'react';
 import * as THREE from "three"
 import OBJLoader from 'three-obj-loader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -10,6 +10,8 @@ import Img from 'gatsby-image';
 import DesignPicker from '../components/designpicker';
 import ModelPicker  from '../components/modelpicker';
 
+
+
 OBJLoader(THREE);
 
 
@@ -17,10 +19,10 @@ const {Option} = Select;
 
 export default ({data}) => {
     let domRef;
-    let human;
-    let shirt;
-    let scene;
-    let loader= new THREE.OBJLoader();
+    let human = useRef(null);
+    let shirt = useRef(null);
+    let scene = useRef(null);
+
 
 
     const designs = data.designs.edges;
@@ -33,8 +35,7 @@ export default ({data}) => {
         setDesign_(design);
         const textureLoader = new THREE.TextureLoader();
         const material2 = new THREE.MeshPhongMaterial({map:textureLoader.load(design)})
-        console.log(shirt);
-        shirt.traverse( child => {
+        shirt.current.traverse( child => {
             if (child instanceof THREE.Mesh){
                 child.material = material2;
                 child.material.needsUpdate= true;
@@ -45,14 +46,15 @@ export default ({data}) => {
     }
 
     const setModel = (publicURL) => {
-        if (human && scene) {scene.remove(human)}
+        if (human.current && scene.current) {scene.remove(human)}
+        let loader= new THREE.OBJLoader();
         loader.load(
             publicURL, // Resource
             (object) => { // Once loaded.
-                human = object;
-                human.rotation.y = -Math.PI/2;
-                console.log(scene,human);
-                scene.add(human);
+                human.current = object;
+                human.current.rotation.y = -Math.PI/2;
+                console.log(scene.current,human.current);
+                scene.add(human.current);
             },
             (xhr) => { //Updates
                 console.log(( xhr.loaded / xhr.total * 100 ) + '% loaded');
@@ -62,6 +64,8 @@ export default ({data}) => {
     }
     
     useEffect( () => {
+        let loader= new THREE.OBJLoader();
+
         // Make camera
         let near =0.1;
 	    let far=10000;
@@ -72,7 +76,7 @@ export default ({data}) => {
         let camera = new THREE.PerspectiveCamera(fov,aspect,near,far);
 
         // Make Scene
-        scene = new THREE.Scene();
+        scene.current = new THREE.Scene();
         // Make renderer
         let renderer = new THREE.WebGLRenderer({ alpha: true });
         renderer.setClearColor( 0x99dd99, 1);
@@ -97,10 +101,10 @@ export default ({data}) => {
             cube.rotation.x += 0.01;
             cube.rotation.y += 0.01;
 
-            if(human){
+            if(human.current){
 
             }
-            renderer.render(scene, camera);
+            renderer.render(scene.current, camera);
 
         }
         animate();
@@ -108,7 +112,7 @@ export default ({data}) => {
         loader.load('/clothes/girl_shirt.obj',
             (object) => {
                 console.log("Got shirt!")
-                shirt = object;
+                shirt.current = object;
                 //shirt.material.color.setHex( 0xff0000 );
                 //shirt.material = new THREE.MeshPhongMaterial({color:0xff0000});
                 /*shirt.traverse(child => {
@@ -118,15 +122,15 @@ export default ({data}) => {
                 })*/
                 const textureLoader = new THREE.TextureLoader();
                 const material2 = new THREE.MeshPhongMaterial({map:textureLoader.load(design)})
-                shirt.traverse( child => {
+                shirt.current.traverse( child => {
                     if (child instanceof THREE.Mesh){
                         child.material = material2;
                     }
                 });
                 //shirt.position.z += 5;
-                shirt.position.y += 0.143;
+                shirt.current.position.y += 0.143;
                 //shirt.scale.set(0.006,0.006,0.006);
-                scene.add(shirt);
+                scene.current.add(shirt.current);
             },
             (xhr) => {
                 console.log("Shirt: ",xhr.loaded/xhr.total*100 ,"% Loaded")
@@ -136,16 +140,16 @@ export default ({data}) => {
         loader.load(
             '/humans/girl.obj', // Resource
             (object) => { // Once loaded.
-                human = object;
+                human.current = object;
                 //human.rotation.y = -Math.PI/2;
-                human.position.y -= 1
+                human.current.position.y -= 1
                 const mat = new THREE.MeshPhongMaterial({color:0xFFDBAC})
-                human.traverse(child => {
+                human.current.traverse(child => {
                     if (child instanceof THREE.Mesh){
                         child.material = mat;
                     }
                 })
-                scene.add(human);
+                scene.current.add(human.current);
             },
             (xhr) => { //Updates
                 console.log(( xhr.loaded / xhr.total * 100 ) + '% loaded');
@@ -159,8 +163,8 @@ export default ({data}) => {
             const light  = new THREE.DirectionalLight(color,intensity)
             light.position.set(0,10,0);
             light.target.position.set(-5,0,0)
-            scene.add(light);
-            scene.add(light.target)
+            scene.current.add(light);
+            scene.current.add(light.target)
         }
 
         // hemisphere light
@@ -169,7 +173,7 @@ export default ({data}) => {
             const groundColor =  0x999999//0xB97A20;  // brownish orange
             const intensity = 1;
             const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
-            scene.add(light);
+            scene.current.add(light);
         }
 
         window.addEventListener("resize",() => {
