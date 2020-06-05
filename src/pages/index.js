@@ -46,7 +46,7 @@ export default ({data}) => {
     }
 
     const setModel = (publicURL) => {
-        if (human.current && scene.current) {scene.remove(human)}
+        if (human.current && scene.current) {scene.current.remove(human.current)}
         let loader= new THREE.OBJLoader();
         loader.load(
             publicURL, // Resource
@@ -54,7 +54,7 @@ export default ({data}) => {
                 human.current = object;
                 human.current.rotation.y = -Math.PI/2;
                 console.log(scene.current,human.current);
-                scene.add(human.current);
+                scene.current.add(human.current);
             },
             (xhr) => { //Updates
                 console.log(( xhr.loaded / xhr.total * 100 ) + '% loaded');

@@ -1,12 +1,13 @@
 import React from 'react';
 
-import {Row, Col,Select, Slider,List } from 'antd';
+import {Row, Col,Select, Slider,List, Button } from 'antd';
 
 
 const {Option} = Select;
 
 export default ({models,modelState}) => {
     const {setModel} = modelState;
+    console.log(models);
     return (
         <div style={{height:"100%",width:"100%",backgroundColor:"#F5F5DC"}}>
             <Row style={{display:"flex","justifyContent":"center"}}>
@@ -15,9 +16,18 @@ export default ({models,modelState}) => {
             <Row style={{height:"60%"}}>
                 <List style={{width:"100%",padding:"1em 1em"}}>
                     {models.map((model,index)=> (
-                        <div key={index} style={{backgroundColor:"#fff",minHeight:"3em",width:"100%",marginBottom:"1em"}}
-                            onClick={() => setModel(model.node.publicURL)}>
-                            {model.node.name}
+                        <div key={index} style={{border:"1px #333 solid ", backgroundColor:"#fff",minHeight:"3em",width:"100%",marginBottom:"1em"}}>
+                            <Row style={{display:"flex",textAlign:"center"}}>
+                                <div style={{justifyContent:"center",alignItems:"center",width:"100%"}}>
+                                    <p style={{alignItems:"center",marginBottom:0}}>
+                                        {model.node.name}
+                                    </p>
+                                </div>
+
+                            </Row>
+                            <Button block type="primary" onClick={() => setModel(model.node.publicURL)}>
+                                Load
+                            </Button>
                         </div>
                     ))}
                 </List>
