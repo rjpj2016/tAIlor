@@ -1,4 +1,4 @@
-import { Row,Col, Button, Select, Slider } from "antd";
+import { Row,Col, Button, Select, Slider,notification } from "antd";
 import { useEffect } from "react";
 import React, {useState,useRef} from 'react';
 import * as THREE from "three"
@@ -9,6 +9,7 @@ import Img from 'gatsby-image';
 
 import DesignPicker from '../components/designpicker';
 import ModelPicker  from '../components/modelpicker';
+import GeometryInterpolator from "../utils/geometryInterpolator";
 
 
 
@@ -19,16 +20,35 @@ const {Option} = Select;
 
 export default ({data}) => {
     let domRef;
+
+    let humanGenerator = useRef(null);
+    let shirtGenerator = useRef(null);
+    let pantGenerator = useRef(null);
+    let humanMin = useRef(null)
+    let humanMax = useRef(null);
+
+
     let human = useRef(null);
     let shirt = useRef(null);
+    let pant = useRef(null);
+
+    
+
+
     let scene = useRef(null);
 
 
 
     const designs = data.designs.edges;
-    const models = data.models.edges;
+    //const models = data.models.edges;
 
     const [design,setDesign_] = useState(designs[0].node.childImageSharp.fluid.src);
+
+    const setWaist=(w)=>{
+        let newGeometry = humanGenerator.current.generateGeometry(w);
+        human.current.children[0].geometry.attributes.position.array=Float32Array.from(newGeometry);
+        human.current.children[0].geometry.attributes.position.needsUpdate = true;
+    }
 
 
     const setDesign = (design) => {
@@ -98,28 +118,42 @@ export default ({data}) => {
 
         let animate = function () {
             requestAnimationFrame(animate);
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
 
-            if(human.current){
-
-            }
             renderer.render(scene.current, camera);
 
         }
         animate();
 
-        loader.load('/clothes/girl_shirt.obj',
+        loader.load('/humans/woman/min/waistmin.obj',
+        (object)=>{
+            humanMin.current = object;
+            human.current = humanMin.current;
+            scene.current.add(human.current);
+
+            loader.load('/humans/woman/max/waistmax.obj',
+            (object2)=>{
+
+                humanMax.current = object2
+
+                console.log(humanMin,humanMax);
+                humanGenerator.current = new GeometryInterpolator(humanMin.current,humanMax.current,10);
+
+
+                let newGeometry = humanGenerator.current.generateGeometry(10);
+
+                human.current.children[0].geometry.attributes.position.array=Float32Array.from(newGeometry);
+                human.current.children[0].geometry.attributes.position.needsUpdate = true;
+
+            });
+           
+        });
+
+        
+
+        /*loader.load('/clothes/girl_shirt.obj',
             (object) => {
                 console.log("Got shirt!")
                 shirt.current = object;
-                //shirt.material.color.setHex( 0xff0000 );
-                //shirt.material = new THREE.MeshPhongMaterial({color:0xff0000});
-                /*shirt.traverse(child => {
-                    if (child instanceof THREE.Mesh){
-                        child.material.color.setRGB (1,0,0);
-                    }
-                })*/
                 const textureLoader = new THREE.TextureLoader();
                 const material2 = new THREE.MeshPhongMaterial({map:textureLoader.load(design)})
                 shirt.current.traverse( child => {
@@ -155,7 +189,9 @@ export default ({data}) => {
                 console.log(( xhr.loaded / xhr.total * 100 ) + '% loaded');
             }
 
-        );
+        );*/
+
+
         //we need some light
         {
             const color =0xffffff;
@@ -201,7 +237,7 @@ export default ({data}) => {
                     </div>
                 </Col>
                 <Col xs={0} md={6} xl={5}>
-                    <ModelPicker models={models} modelState={{setModel}}/>
+                    <ModelPicker models={[]} modelState={{setModel}} setWaist={setWaist}/>
                     
                 </Col>
             </Row>
@@ -219,17 +255,6 @@ query {
                     ...GatsbyImageSharpFluid
                     }
                 }
-            }
-        }
-    }
-    models: allFile (filter:{
-            relativeDirectory:{eq:"humans"},
-            extension:{ eq:"obj"}
-    }){
-        edges {
-            node {
-                publicURL
-                name
             }
         }
     }

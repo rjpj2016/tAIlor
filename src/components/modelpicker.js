@@ -5,7 +5,7 @@ import {Row, Col,Select, Slider,List, Button } from 'antd';
 
 const {Option} = Select;
 
-export default ({models,modelState}) => {
+export default ({models,modelState,setWaist}) => {
     const {setModel} = modelState;
     console.log(models);
     return (
@@ -61,7 +61,7 @@ export default ({models,modelState}) => {
                             Waist :
                         </Col>
                         <Col span={14}>
-                            <Slider defaultValue={Math.random()*100} style={{margin:"0.5em"}}/>
+                            <Slider defaultValue={5} min={1} max={10} style={{margin:"0.5em"}} onChange={setWaist}/>
                         </Col>
                     </Row>
                     <Row style={{marginBottom:"0.5em"}}>
