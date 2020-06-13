@@ -26,6 +26,10 @@ export default ({data}) => {
     let pantGenerator = useRef(null);
     let humanMin = useRef(null)
     let humanMax = useRef(null);
+    let shirtMin = useRef(null)
+    let shirtMax = useRef(null);
+    let pantMin = useRef(null)
+    let pantMax = useRef(null);
 
 
     let human = useRef(null);
@@ -48,6 +52,14 @@ export default ({data}) => {
         let newGeometry = humanGenerator.current.generateGeometry(w);
         human.current.children[0].geometry.attributes.position.array=Float32Array.from(newGeometry);
         human.current.children[0].geometry.attributes.position.needsUpdate = true;
+
+        newGeometry = shirtGenerator.current.generateGeometry(w);
+        shirt.current.children[0].geometry.attributes.position.array=Float32Array.from(newGeometry);
+        shirt.current.children[0].geometry.attributes.position.needsUpdate = true;
+
+        newGeometry = pantGenerator.current.generateGeometry(w);
+        pant.current.children[0].geometry.attributes.position.array=Float32Array.from(newGeometry);
+        pant.current.children[0].geometry.attributes.position.needsUpdate = true;
     }
 
 
@@ -90,8 +102,8 @@ export default ({data}) => {
         let near =0.1;
 	    let far=10000;
         let fov=45;
-        let radiusOfCamera=2;
-        let heightOfCamera=0;
+        let radiusOfCamera=4;
+        let heightOfCamera=1;
         let aspect = domRef.offsetWidth/domRef.offsetHeight;
         let camera = new THREE.PerspectiveCamera(fov,aspect,near,far);
 
@@ -135,17 +147,87 @@ export default ({data}) => {
 
                 humanMax.current = object2
 
-                console.log(humanMin,humanMax);
                 humanGenerator.current = new GeometryInterpolator(humanMin.current,humanMax.current,10);
 
 
-                let newGeometry = humanGenerator.current.generateGeometry(10);
+                let newGeometry = humanGenerator.current.generateGeometry(5);
 
                 human.current.children[0].geometry.attributes.position.array=Float32Array.from(newGeometry);
                 human.current.children[0].geometry.attributes.position.needsUpdate = true;
 
             });
            
+        });
+
+
+        loader.load('/humans/woman/min/shirtmin.obj',
+            (object) => {
+                shirtMin.current = object;
+                shirt.current = shirtMin.current;
+
+                const textureLoader = new THREE.TextureLoader();
+                const material = new THREE.MeshBasicMaterial({map: textureLoader.load(design)});
+                shirt.current.material = material;
+                shirt.current.traverse( child => {
+                    if (child instanceof THREE.Mesh){
+                        child.material = material;
+                        child.material.needsUpdate= true;
+                        child.material.map.needsUpdate = true;
+                        child.needsUpdate = true;
+                    }
+                });
+                shirt.current.material.needsUpdate = true
+
+                scene.current.add(shirt.current);
+
+                loader.load('/humans/woman/max/shirtmax.obj',
+                (object2) => {
+                    shirtMax.current = object2;
+                    shirtGenerator.current = new GeometryInterpolator(shirtMin.current,shirtMax.current,10);
+
+                    console.log(shirtGenerator)
+
+
+                    let newGeometry = shirtGenerator.current.generateGeometry(5);
+                    shirt.current.children[0].geometry.attributes.position.array=Float32Array.from(newGeometry);
+                    shirt.current.children[0].geometry.attributes.position.needsUpdate = true;
+                })
+
+        });
+
+        loader.load('/humans/woman/min/bottomsmin.obj',
+            (object) => {
+                pantMin.current = object;
+                pant.current = pantMin.current;
+
+                const textureLoader = new THREE.TextureLoader();
+                const material = new THREE.MeshBasicMaterial({map: textureLoader.load(designs[3].node.childImageSharp.fluid.src)});
+                pant.current.material = material;
+                pant.current.traverse( child => {
+                    if (child instanceof THREE.Mesh){
+                        child.material = material;
+                        child.material.needsUpdate= true;
+                        child.material.map.needsUpdate = true;
+                        child.needsUpdate = true;
+                    }
+                });
+                pant.current.material.needsUpdate = true
+
+                scene.current.add(pant.current);
+
+                loader.load('/humans/woman/max/bottomsmax.obj',
+                (object2) => {
+                    pantMax.current = object2;
+                    pantGenerator.current = new GeometryInterpolator(pantMin.current,pantMax.current,10);
+
+                    console.log(pantGenerator)
+
+
+                    let newGeometry = pantGenerator.current.generateGeometry(5);
+                    pant.current.children[0].geometry.attributes.position.array=Float32Array.from(newGeometry);
+                    pant.current.children[0].geometry.attributes.position.needsUpdate = true;
+                })
+
         });
 
         
