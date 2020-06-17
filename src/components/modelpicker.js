@@ -39,37 +39,10 @@ export default ({models,modelState,setWaist}) => {
                 <div style={{width:"100%"}}>
                     <Row style={{marginBottom:"0.5em"}}>
                         <Col span={10} style={{display:"flex",justifyContent:"flex-end",paddingRight:"1em",alignItems:"center"}}>
-                            Gender :
-                        </Col>
-                        <Col span={14}>
-                            <Select placeholder="Gender" style={{width:"100%"}}>
-                                <Option value="Male">Male</Option>
-                                <Option value="Female">Female</Option>
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row style={{marginBottom:"0.5em"}}>
-                        <Col span={10} style={{display:"flex",justifyContent:"flex-end",paddingRight:"1em",alignItems:"center"}}>
-                            Height :
-                        </Col>
-                        <Col span={14}>
-                            <Slider defaultValue={Math.random()*100} style={{margin:"0.5em"}}/>
-                        </Col>
-                    </Row>
-                    <Row style={{marginBottom:"0.5em"}}>
-                        <Col span={10} style={{display:"flex",justifyContent:"flex-end",paddingRight:"1em",alignItems:"center"}}>
                             Waist :
                         </Col>
                         <Col span={14}>
                             <Slider defaultValue={5} min={1} max={10} style={{margin:"0.5em"}} onChange={setWaist}/>
-                        </Col>
-                    </Row>
-                    <Row style={{marginBottom:"0.5em"}}>
-                        <Col span={10} style={{display:"flex",justifyContent:"flex-end",paddingRight:"1em",alignItems:"center",textAlign:"right"}}>
-                            Shoulder Width:
-                        </Col>
-                        <Col span={14}>
-                            <Slider defaultValue={Math.random()*100} style={{margin:"0.5em"}}/>
                         </Col>
                     </Row>
                 </div>
