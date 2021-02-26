@@ -26,7 +26,7 @@ export default ({designs,designState}) => {
     }
 
     return (
-        <div style={{height:"100%",width:"100%",backgroundColor:"#FDF5DC",position:"relative"}}>
+        <div style={{height:"100%",width:"100%",backgroundColor:"#FDF5DC",position:"relative",flexBasis:"1"}}>
             <Row style={{display:"flex","justifyContent":"center"}}>
                 <h1 style={{margin:"auto"}}>Designs</h1>
             </Row>
@@ -48,7 +48,8 @@ export default ({designs,designState}) => {
                     ))}
                 </div>
             </Row>
-            <Row style={{position:"absolute",bottom:"0",right:"0",left:"0",height:"50px"}}>
+            {/* <Row style={{position:"absolute",bottom:"0",right:"0",left:"0",height:"50px"}}> */}
+            <Row style={{height:"50px"}}>
                 <Col span={24} style={{display:"flex",justifyContent:"center"}}>
                     <Button size="large" type="primary" shape="round" icon={<RobotOutlined/>} 
                         onClick={() => generateDesign()}

@@ -9,8 +9,8 @@ export default ({models,modelState,setWaist}) => {
     const {setModel} = modelState;
     console.log(models);
     return (
-        <div style={{height:"100%",width:"100%",backgroundColor:"#F5F5DC"}}>
-            <Row style={{display:"flex","justifyContent":"center"}}>
+        <div style={{width:"100%",backgroundColor:"#F5F5DC",display:"flex",alignItems:"center",position:"absolute",bottom:0}}>
+            {/* <Row style={{display:"flex","justifyContent":"center"}}>
                 <h1 style={{margin:"auto"}}>Models</h1>
             </Row>
             <Row style={{height:"60%"}}>
@@ -32,8 +32,9 @@ export default ({models,modelState,setWaist}) => {
                     ))}
                 </List>
                 
-            </Row>
-            <Row style={{borderTop:"1px black solid"}}>
+            </Row> */}
+            {/* <Row style={{borderTop:"1px black solid",width:"100%"}}> */}
+            <Row style={{width:"100%"}}>
                 <div style={{display:"flex",justifyContent:"center",width:"100%",color:"#111"}}><p>Parameters</p></div>
                 
                 <div style={{width:"100%"}}>

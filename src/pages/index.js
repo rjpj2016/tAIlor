@@ -84,6 +84,7 @@ export default ({data}) => {
             publicURL, // Resource
             (object) => { // Once loaded.
                 human.current = object;
+                //human.current.position.y -= 100;
                 human.current.rotation.y = -Math.PI/2;
                 console.log(scene.current,human.current);
                 scene.current.add(human.current);
@@ -96,6 +97,8 @@ export default ({data}) => {
     }
     
     useEffect( () => {
+        
+
         let loader= new THREE.OBJLoader();
 
         // Make camera
@@ -103,7 +106,7 @@ export default ({data}) => {
 	    let far=10000;
         let fov=45;
         let radiusOfCamera=4;
-        let heightOfCamera=1;
+        let heightOfCamera=0;
         let aspect = domRef.offsetWidth/domRef.offsetHeight;
         let camera = new THREE.PerspectiveCamera(fov,aspect,near,far);
 
@@ -140,12 +143,16 @@ export default ({data}) => {
         (object)=>{
             humanMin.current = object;
             human.current = humanMin.current;
+            human.current.position.y -= 0.75;
             scene.current.add(human.current);
+
+
 
             loader.load('/humans/woman/max/waistmax.obj',
             (object2)=>{
 
                 humanMax.current = object2
+
 
                 humanGenerator.current = new GeometryInterpolator(humanMin.current,humanMax.current,10);
 
@@ -163,7 +170,9 @@ export default ({data}) => {
         loader.load('/humans/woman/min/shirtmin.obj',
             (object) => {
                 shirtMin.current = object;
+
                 shirt.current = shirtMin.current;
+                shirt.current.position.y -= 0.75;
 
                 const textureLoader = new THREE.TextureLoader();
                 const material = new THREE.MeshBasicMaterial({map: textureLoader.load(design)});
@@ -199,6 +208,7 @@ export default ({data}) => {
             (object) => {
                 pantMin.current = object;
                 pant.current = pantMin.current;
+                pant.current.position.y -= 0.75;
 
                 const textureLoader = new THREE.TextureLoader();
                 const material = new THREE.MeshBasicMaterial({map: textureLoader.load(designs[3].node.childImageSharp.fluid.src)});
@@ -309,18 +319,14 @@ export default ({data}) => {
     return (
         <div style={{height:"100vh"}}>
             <Row style={{height:"100vh"}}>
-                <Col xs={0} md={6} xl={5}>
+                <Col style={{height: "100%",display:"flex",flexDirection:"column",position:"relative"}} xs={0} md={6} xl={5}>
                     <DesignPicker designs={designs} designState={[design,setDesign]}/>
-
-                    
-                </Col>
-                <Col xs={24} md={12} xl={14} style={{borderLeft:"1px black solid",borderRight:"1px black solid"}}>
-                    <div ref={ref => {domRef = ref}} style={{height:"100vh",width:"100%"}}>
-                    </div>
-                </Col>
-                <Col xs={0} md={6} xl={5}>
                     <ModelPicker models={[]} modelState={{setModel}} setWaist={setWaist}/>
                     
+                </Col>
+                <Col xs={24} md={18} xl={19} style={{borderLeft:"1px black solid",borderRight:"1px black solid"}}>
+                    <div ref={ref => {domRef = ref}} style={{height:"100vh",width:"100%"}}>
+                    </div>
                 </Col>
             </Row>
         </div>
